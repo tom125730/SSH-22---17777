@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GOST 转发面板</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>GOST 转发面板</h1>
+    <p>可视化维护转发规则，快速生成 GOST 启动命令与配置。</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2 id="form-title">新增规则</h2>
+      <form id="rule-form">
+        <div class="grid">
+          <label>
+            规则名称
+            <input id="name" type="text" placeholder="例如：香港中转" required />
+          </label>
+          <label>
+            协议
+            <select id="protocol">
+              <option value="tcp">TCP</option>
+              <option value="udp">UDP</option>
+              <option value="http">HTTP</option>
+              <option value="socks5">SOCKS5</option>
+              <option value="ws">WebSocket</option>
+            </select>
+          </label>
+          <label>
+            本地监听
+            <input id="listen" type="text" placeholder=":8080" required />
+          </label>
+          <label>
+            目标地址
+            <input id="target" type="text" placeholder="1.2.3.4:80" required />
+          </label>
+          <label>
+            用户名（可选）
+            <input id="username" type="text" placeholder="admin" />
+          </label>
+          <label>
+            密码（可选）
+            <input id="password" type="password" placeholder="******" />
+          </label>
+        </div>
+
+        <div class="inline-controls">
+          <label class="checkbox"><input id="tls" type="checkbox" /> 启用 TLS</label>
+          <label class="checkbox"><input id="enabled" type="checkbox" checked /> 启用该规则</label>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="primary" id="submit-btn">保存规则</button>
+          <button type="button" id="cancel-edit" hidden>取消编辑</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="card">
+      <div class="section-head">
+        <h2>规则列表</h2>
+        <div>
+          <button id="export-btn">导出</button>
+          <label class="import-label" for="import-file">导入</label>
+          <input id="import-file" type="file" accept="application/json" hidden />
+        </div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>启用</th>
+            <th>名称</th>
+            <th>协议</th>
+            <th>监听</th>
+            <th>目标</th>
+            <th>TLS</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody id="rule-table"></tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>生成结果</h2>
+      <div class="output-actions">
+        <button id="copy-command">复制命令</button>
+        <button id="copy-config">复制配置</button>
+      </div>
+      <h3>启动命令</h3>
+      <pre id="command-output"></pre>
+      <h3>config.json</h3>
+      <pre id="config-output"></pre>
+    </section>
+  </main>
+
+  <footer>
+    <small>提示：规则保存在浏览器本地存储（localStorage）。</small>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

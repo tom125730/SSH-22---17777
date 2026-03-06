@@ -1,0 +1,8 @@
+services:
+  gost-panel:
+    build: .
+    image: gost-forward-panel:latest
+    container_name: gost-forward-panel
+    ports:
+      - "8080:80"
+    restart: unless-stopped
